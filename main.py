@@ -41,7 +41,10 @@ def main():
 
     while True:
         balance = getBalance(ex, asset=QUOTE_COIN)
-        logger.info(f"当前余额 {QUOTE_COIN}: {balance} 最大可用: {balance * MAX_BALANCE}")
+        logger.info(f"当前余额 {QUOTE_COIN}: {round(balance,2)} "
+                    f"最大可用{round(MAX_BALANCE*100,2)}%: {round(balance * MAX_BALANCE,2)} "
+                    f"页面杠杆: {PAGE_LEVERAGE} "
+                    f"实际杠杆: {round(PAGE_LEVERAGE * MAX_BALANCE,2)}")
         balance *= MAX_BALANCE
 
         positions = getOpenPosition(ex)

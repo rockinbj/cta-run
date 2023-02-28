@@ -30,7 +30,7 @@ def sendReport(exchangeId, symbolsConfig, interval=REPORT_INTERVAL):
         logger.debug("开始发送报告")
 
         pos = getOpenPosition(exchange)
-        bTot, bBal, bPos = getBalances(exchange)
+        bTot, bBal, bPos = getAccountBalance(exchange)
         bal = round(float(bTot.iloc[0]["availableBalance"]), 2)
         wal = round(float(bTot.iloc[0]["totalMarginBalance"]), 2)
 
@@ -167,7 +167,7 @@ def retryy(func, _name="retryy", _wait=1, _times=3, critical=False, **kwargs):
         raise RuntimeError(f)
 
 
-def getBalances(exchange):
+def getAccountBalance(exchange):
     # positions:
     # initialMargin maintMargin unrealizedProfit positionInitialMargin openOrderInitialMargin leverage  isolated entryPrice maxNotional positionSide positionAmt notional isolatedWallet updateTime bidNotional askNotional
     try:
@@ -184,7 +184,7 @@ def getBalances(exchange):
         return total, balances, positions
     except Exception as e:
         logger.exception(e)
-        sendAndPrintError(f"{RUN_NAME}: getBalances()错误: {e}")
+        sendAndPrintError(f"{RUN_NAME}: getAccountBalance()错误: {e}")
 
 
 def getPositions(exchange):
@@ -378,9 +378,6 @@ def calOrder(exchange, markets, signalInfo, symbolsConfig, positions, balance):
     signal = signalInfo[1]
 
     weight = symbolsConfig[symbol]["weight"]
-    leverage = symbolsConfig[symbol]["leverage"]
-    # 实际杠杆 * 页面杠杆 * 开仓金额 = 开仓时的实际价值，即 实际杠杆 = 实际价值 / (页面杠杆 * )
-    balance = leverage * PAGE_LEVERAGE * balance
 
     # 如果当前symbol的signal不为None
     order = {symbol: None}
