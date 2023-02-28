@@ -149,17 +149,19 @@ def sendAndRaise(msg):
 
 
 def retryy(func, _name="retryy", _wait=1, _times=3, critical=False, **kwargs):
+    error = ""
     for i in range(_times):
         try:
             return func(**kwargs)
         except ccxt.MarginModeAlreadySet:
             pass
         except Exception as e:
+            error = str(e)
             logger.error(f"{_name} raised a error: {e}")
             logger.exception(e)
             time.sleep(_wait)
     else:
-        f = f"{RUN_NAME} {_name} 重试{_times}次无效, 程序退出，请检查日志。"
+        f = f"{RUN_NAME} {_name} 重试{_times}次无效, 程序退出: {error}"
         if critical:
             sendAndCritical("！严重级别告警！" + f)
         else:
