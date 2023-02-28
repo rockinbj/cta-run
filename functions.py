@@ -279,7 +279,7 @@ def sleepToClose(level, aheadSeconds, isTest=False, offsetSec=0):
         while True:  # 在靠近目标时间时
             if dt.datetime.now() > nextTime:
                 break
-    logger.info(f"吉时已到, 开盘!")
+    logger.info(f"吉时已到, 开炮!")
     return nextTime
 
 
@@ -294,7 +294,7 @@ def getKline(exchange, symbolConfig):
         _wait=1, _times=3,
         critical=False,
         params={'symbol': symbol, 'interval': level, 'limit': limit},
-    )
+    )[:-1]
 
     df = pd.DataFrame(data, dtype=float)
     df.rename(columns={1: 'open', 2: 'high', 3: 'low', 4: 'close', 5: 'volume'}, inplace=True)
