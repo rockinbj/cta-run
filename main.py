@@ -51,7 +51,7 @@ def main():
 
         nextStartTime = sleepToClose(SLEEP_LEVEL, aheadSeconds=3, isTest=IS_TEST, offsetSec=0)
 
-        klinesDict = getKlinesForSymbols(ex, symbolsConfig, isTest=IS_TEST)
+        klinesDict = getKlinesForSymbols(ex, symbolsConfig, isTest=IS_TEST, cheatTime=CHEAT_TIME)
         logger.info(f"获取 {len(klinesDict)} 个币种k线, 共 {sum([len(k) for k in list(klinesDict.values())])} 根完成")
 
         signals = calSignalForSymbols(symbolsConfig, klinesDict, isTest=IS_TEST)

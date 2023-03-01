@@ -1,5 +1,8 @@
 import math
 import pandas_ta as ta
+from logger import *
+
+logger = logging.getLogger("app.signal")
 
 
 def signal(*args):
@@ -29,6 +32,7 @@ def signal(*args):
     directionNow = _df.iloc[-1]["superT_direction"]
     directionPre = _df.iloc[-2]["superT_direction"]
 
+
     if (directionNow == 1) \
             and (directionPre == -1) \
             and (close > upper):
@@ -41,5 +45,9 @@ def signal(*args):
 
     else:
         signal = None
+
+    logger.debug(f"信号计算过程:\n"
+                 f"{_df.tail(3)}\n"
+                 f"dPre={directionPre} dNow={directionNow} close={close} upper={upper} lower={lower} signal={signal}")
 
     return signal

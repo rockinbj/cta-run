@@ -288,7 +288,7 @@ def sleepToClose(level, aheadSeconds, isTest=False, offsetSec=0):
     return nextTime
 
 
-def getKline(exchange, symbolConfig):
+def getKline(exchange, symbolConfig, cheatTime=None):
     symbol = symbolConfig[0]
     level = symbolConfig[1]["level"]
     limit = symbolConfig[1]["klinesNum"]
@@ -299,22 +299,29 @@ def getKline(exchange, symbolConfig):
         _wait=1, _times=3,
         critical=False,
         params={'symbol': symbol, 'interval': level, 'limit': limit},
-    )[:-1]
+    )
 
     df = pd.DataFrame(data, dtype=float)
     df.rename(columns={1: 'open', 2: 'high', 3: 'low', 4: 'close', 5: 'volume'}, inplace=True)
     df['candle_begin_time'] = pd.to_datetime(df[0], unit='ms') + dt.timedelta(hours=8)
     df = df[['candle_begin_time', 'open', 'high', 'low', 'close', 'volume']]
+
+    if cheatTime:
+        logger.debug(f"(将按照 假定时间 生成k线: {cheatTime})")
+        df = df[df["candle_begin_time"] <= pd.to_datetime(cheatTime)]
+    df = df[:-1]
+    print(df.tail(3))
+
     logger.debug(f"{symbol} 获取到k线 {len(df)} 根")
 
     return df
 
 
-def getKlinesForSymbols(exchange, symbolsConfig, isTest=True):
+def getKlinesForSymbols(exchange, symbolsConfig, isTest=True, cheatTime=None):
     symbols = list(symbolsConfig.keys())
     num = 1 if isTest else len(symbolsConfig)
     dfList = Parallel(n_jobs=num, backend="threading")(
-        delayed(getKline)(exchange, symbolConfig) for symbolConfig in symbolsConfig.items()
+        delayed(getKline)(exchange, symbolConfig, cheatTime) for symbolConfig in symbolsConfig.items()
     )
 
     klinesDict = dict(zip(symbols, dfList))
@@ -324,11 +331,11 @@ def getKlinesForSymbols(exchange, symbolsConfig, isTest=True):
 
 def calSignal(symbol, symbolsConfig, klinesDict):
     symbolConfig = symbolsConfig[symbol]
-    klinesDf = klinesDict[symbol]
+    klineDf = klinesDict[symbol]
     strategyName = symbolConfig["strategy"]
     para = symbolConfig["para"]
     _cls = __import__(f"signals.{strategyName}", fromlist=('',))
-    signal = getattr(_cls, "signal")(klinesDf, para)
+    signal = getattr(_cls, "signal")(klineDf, para)
     logger.debug(f"{symbol} 策略: {strategyName} 参数: {para} 信号结果: {signal}")
 
     return symbol, signal
