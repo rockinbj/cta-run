@@ -478,6 +478,22 @@ def placeOrderForSymbols(exchange, orderInfos, isTest=True, isTrade=False):
     return ordersResp
 
 
+def closePositionForce(exchange, markets, openPositions, symbol=None):
+    # 如果没有symbol参数, 清空所有持仓, 如果有symbol只平仓指定币种
+    for s, pos in openPositions.iterrows():
+        if symbol is not None and s != symbol: continue
+        symbolId = markets[s]["id"]
+        para = {
+            "symbol": symbolId,
+            "side": "SELL" if pos["side"]=="long" else "BUY",
+            "type": "MARKET",
+            "quantity": pos["contracts"],
+            "reduceOnly": True,
+        }
+
+        retryy(exchange.fapiPrivatePostOrder, critical=True, params=para)
+
+
 def main():
     ex = ccxt.binance(EXCHANGE_CONFIG)
     mkts = ex.load_markets()
