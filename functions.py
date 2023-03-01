@@ -301,8 +301,6 @@ def getKline(exchange, symbolConfig, cheatTime=None):
         critical=False,
         params={'symbol': symbol, 'interval': level, 'limit': limit},
     )
-    print(data[:2])
-    exit()
 
     df = pd.DataFrame(data, dtype=float)
     df.rename(columns={
