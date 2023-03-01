@@ -29,6 +29,7 @@ def reporter(exchangeId, interval):
 
 def main():
     _n = "\n"
+    logger.info(f"实盘代码: {RUN_NAME}")
     logger.info(f"开始建立交易所信息、市场信息...")
     ex = getattr(ccxt, EXCHANGE)(EXCHANGE_CONFIG)
     mkts = retryy(ex.loadMarkets, _name="建立市场信息ex.loadMarkets()")
