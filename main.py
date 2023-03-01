@@ -1,3 +1,4 @@
+import time
 from multiprocessing import Pool as PPool
 from multiprocessing import current_process
 from functions import *
@@ -51,6 +52,7 @@ def main():
         logger.info(f"当前持仓:\n{positions}")
 
         nextStartTime = sleepToClose(SLEEP_LEVEL, aheadSeconds=3, isTest=IS_TEST, offsetSec=0)
+        time.sleep(SLEEP_SHORT)
 
         klinesDict = getKlinesForSymbols(ex, symbolsConfig, isTest=IS_TEST, cheatTime=CHEAT_TIME)
         logger.info(f"获取 {len(klinesDict)} 个币种k线, 共 {sum([len(k) for k in list(klinesDict.values())])} 根完成")

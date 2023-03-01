@@ -6,7 +6,7 @@ symbolsConfig = {
         "level": "1h",
         "weight": 0.3,
         "leverage": 1,
-        "klinesNum": 1500,
+        "klinesNum": 1450,
     },
     "ETH/USDT": {
         "strategy": "superTrend2Dema",
@@ -15,7 +15,7 @@ symbolsConfig = {
         "level": "1h",
         "weight": 0.5,
         "leverage": 1,
-        "klinesNum": 1500,
+        "klinesNum": 1450,
     },
     "DOGE/USDT": {
         "strategy": "superTrend2Dema",
@@ -24,6 +24,6 @@ symbolsConfig = {
         "level": "1h",
         "weight": 0.2,
         "leverage": 1,
-        "klinesNum": 1500,
+        "klinesNum": 1450,
     },
 }
