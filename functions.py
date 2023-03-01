@@ -383,6 +383,7 @@ def calOrder(exchange, markets, signalInfo, symbolsConfig, positions, balance):
     signal = signalInfo[1]
 
     weight = symbolsConfig[symbol]["weight"]
+    orderValue = balance * weight
 
     # 如果当前symbol的signal不为None
     order = {symbol: None}
@@ -391,10 +392,9 @@ def calOrder(exchange, markets, signalInfo, symbolsConfig, positions, balance):
         posNow = positions[positions.index.str.contains(symbol)]
 
         # 如果当前无该symbol的持仓，直接开仓
-        # 本次开仓 应分配资金：balance * weight
+        # 本次开仓 应分配资金 = 实际开仓价值
         if posNow.empty:
-            balance *= weight
-            costAim = balance
+            costAim = orderValue
 
         # 如果已经有symbol持仓:
         #   如果是同向持仓，则本轮不动
@@ -408,10 +408,9 @@ def calOrder(exchange, markets, signalInfo, symbolsConfig, positions, balance):
                 # 当前持仓价值
                 posCostNow = posNow.iloc[0]["notional"]
                 # 本次开仓价值 = 目标持仓价值 * 目标方向 - 当前持仓 * 当前方向
-                balance *= weight
-                costAim = abs(balance * signal - posCostNow * posDirction)
+                costAim = abs(orderValue * signal - posCostNow * posDirction)
 
-        logger.debug(f"{symbol} 本次分配资金 {costAim}")
+        logger.debug(f"{symbol} 目标持仓价值{QUOTE_COIN}: {round(costAim,2)} 实际分配资金: {round(costAim/PAGE_LEVERAGE,2)}")
 
         # 获取实时价格，与costAim计算下单参数
         t = retryy(exchange.fetchTicker, _name=f"计算订单信息时获取实时价格fetchTicker({symbol})", symbol=symbol)

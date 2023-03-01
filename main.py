@@ -45,7 +45,6 @@ def main():
                     f"最大可用{round(MAX_BALANCE*100,2)}%: {round(balance * MAX_BALANCE,2)} "
                     f"页面杠杆: {PAGE_LEVERAGE} "
                     f"实际杠杆: {round(PAGE_LEVERAGE * MAX_BALANCE,2)}")
-        balance *= MAX_BALANCE
 
         positions = getOpenPosition(ex)
         logger.info(f"当前持仓:\n{positions}")
