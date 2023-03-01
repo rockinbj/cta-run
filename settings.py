@@ -3,8 +3,8 @@ IS_TEST = True
 IS_TRADE = False
 
 # 假定时间，会产生当时的计算结果，如果不用请置None
-# CHEAT_TIME = None
-CHEAT_TIME = "2023-03-01 06:00:10"
+CHEAT_TIME = None
+# CHEAT_TIME = "2023-03-01 06:00:10"
 
 # 页面杠杆
 PAGE_LEVERAGE = 5
