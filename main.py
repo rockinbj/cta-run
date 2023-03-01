@@ -52,7 +52,7 @@ def main():
         logger.info(f"当前持仓:\n{positions}")
 
         nextStartTime = sleepToClose(SLEEP_LEVEL, aheadSeconds=3, isTest=IS_TEST, offsetSec=0)
-        _delay = SLEEP_LONG * 10
+        _delay = SLEEP_LONG * 10 if IS_TEST is False else 0
         logger.debug(f"为防止k线不闭合，延迟 {_delay}s 拉取k线")
         time.sleep(_delay)
 

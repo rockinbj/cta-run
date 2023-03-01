@@ -301,6 +301,8 @@ def getKline(exchange, symbolConfig, cheatTime=None):
         critical=False,
         params={'symbol': symbol, 'interval': level, 'limit': limit},
     )
+    print(data[:2])
+    exit()
 
     df = pd.DataFrame(data, dtype=float)
     df.rename(columns={
@@ -310,9 +312,10 @@ def getKline(exchange, symbolConfig, cheatTime=None):
         3: 'low',
         4: 'close',
         5: 'volume',
+        7: "quote_volume",
     }, inplace=True)
     df['candle_begin_time'] = pd.to_datetime(df["candle_begin_time"], unit='ms') + dt.timedelta(hours=8)
-    df = df[['candle_begin_time', 'open', 'high', 'low', 'close', 'volume']]
+    df = df[['candle_begin_time', 'open', 'high', 'low', 'close', 'volume', "quote_volume"]]
     logger.debug(f"{symbol} 原始k线中的最后一行:\n{df.tail(1)}")
 
     if cheatTime:
