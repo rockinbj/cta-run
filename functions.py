@@ -302,9 +302,17 @@ def getKline(exchange, symbolConfig, cheatTime=None):
     )
 
     df = pd.DataFrame(data, dtype=float)
-    df.rename(columns={1: 'open', 2: 'high', 3: 'low', 4: 'close', 5: 'volume'}, inplace=True)
-    df['candle_begin_time'] = pd.to_datetime(df[0], unit='ms') + dt.timedelta(hours=8)
+    df.rename(columns={
+        0: "candle_begin_time",
+        1: 'open',
+        2: 'high',
+        3: 'low',
+        4: 'close',
+        5: 'volume',
+    }, inplace=True)
+    df['candle_begin_time'] = pd.to_datetime(df["candle_begin_time"], unit='ms') + dt.timedelta(hours=8)
     df = df[['candle_begin_time', 'open', 'high', 'low', 'close', 'volume']]
+    logger.debug(f"原始k线中的最后一行:\n{df.tail(1)}")
 
     if cheatTime:
         logger.debug(f"(将按照 假定时间 生成k线: {cheatTime})")
