@@ -50,7 +50,7 @@ def sendReport(exchangeId, symbolsConfig, interval=REPORT_INTERVAL):
                     "leverage",
                 ]
             ]
-            pos["datetime"] += dt.timedelta(hours=8)
+            pos["datetime"] = pd.to_datetime(pos["datetime"]) + dt.timedelta(hours=8)
 
             pos.rename(
                 columns={
