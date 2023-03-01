@@ -310,7 +310,6 @@ def getKline(exchange, symbolConfig, cheatTime=None):
         logger.debug(f"(将按照 假定时间 生成k线: {cheatTime})")
         df = df[df["candle_begin_time"] <= pd.to_datetime(cheatTime)]
     df = df[:-1]
-    print(df.tail(3))
 
     logger.debug(f"{symbol} 获取到k线 {len(df)} 根")
 
