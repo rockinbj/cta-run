@@ -52,7 +52,9 @@ def main():
         logger.info(f"当前持仓:\n{positions}")
 
         nextStartTime = sleepToClose(SLEEP_LEVEL, aheadSeconds=3, isTest=IS_TEST, offsetSec=0)
-        time.sleep(SLEEP_SHORT)
+        _delay = SLEEP_LONG * 10
+        logger.debug(f"为防止k线不闭合，延迟 {_delay}s 拉取k线")
+        time.sleep(_delay)
 
         klinesDict = getKlinesForSymbols(ex, symbolsConfig, isTest=IS_TEST, cheatTime=CHEAT_TIME)
         logger.info(f"获取 {len(klinesDict)} 个币种k线, 共 {sum([len(k) for k in list(klinesDict.values())])} 根完成")
