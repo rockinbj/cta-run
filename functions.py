@@ -70,11 +70,11 @@ def sendReport(exchangeId, symbolsConfig, interval=REPORT_INTERVAL):
             d = pos.to_dict(orient="index")
 
             msg += f"#### 账户权益 : {wal}U\n"
-            msg += f'#### 当前持币 : {", ".join(list(d.keys()))}'
+            msg += f'#### 当前持币 : {", ".join([i.split("/")[0] for i in list(d.keys())])}'
 
             for k, v in d.items():
                 msg += f"""
-##### {k}
+##### {k.split("/")[0]}
  - 持仓方向    : {v["持仓方向"]}
  - 持仓价值(U) : {v["持仓价值(U)"]}
  - 盈亏比例(%) : {v["盈亏比例(%)"]}
