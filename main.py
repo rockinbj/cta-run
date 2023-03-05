@@ -69,11 +69,8 @@ def main():
         logger.info(f"本轮下单回执:\n{_n.join(str(s) for s in ordersResp)}")
 
         # 如果本轮有订单就汇报
-        if not all(o is None for o in ordersInfo):
-            _str = ""
-            for i in ordersInfo:
-                if list(i.values())[0]:
-                    _str += str({list(i.keys())[0]: list(i.values())[0]["side"]}) + "\n"
+        if not all(list(o.values())[0] is None for o in ordersInfo):
+            _str = {list(i.keys())[0]: list(i.values())[0]["side"] for i in ordersInfo if list(i.values())[0]}
             sendMixin(f"本轮有交易信号:\n"
                       f"{_str}")
 
