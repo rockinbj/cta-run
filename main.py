@@ -68,11 +68,14 @@ def main():
         ordersResp = placeOrderForSymbols(ex, ordersInfo, isTest=IS_TEST, isTrade=IS_TRADE)
         logger.info(f"本轮下单回执:\n{_n.join(str(s) for s in ordersResp)}")
 
-        # 如果本轮有交易就发送
-        if not all(signals[s] is None for s in signals):
-            s = {s:"BUY" if signals[s] == 1 else "SELL" for s in signals if signals[s] is not None}
-            sendMixin(f"本轮有信号:\n"
-                      f"{s}")
+        # 如果本轮有订单就汇报
+        if not all(o is None for o in ordersInfo):
+            _str = ""
+            for i in ordersInfo:
+                if list(i.values())[0]:
+                    _str += str({list(i.keys())[0]: list(i.values())[0]["side"]}) + "\n"
+            sendMixin(f"本轮有交易信号:\n"
+                      f"{_str}")
 
         if IS_TEST: exit()
 
