@@ -215,13 +215,13 @@ def drawPic(equityFile, posFile):
     posNow.index.name = None
 
     # 画资金曲线
-    fig, ax = plt.subplots(figsize=(15, 10), facecolor='black', tight_layout=True)
+    fig, ax = plt.subplots(figsize=(15, 10), facecolor='black')
     ax.plot(eqDf["saveTime"], eqDf["equity"], color="tab:green")
     ax.xaxis.set_major_formatter(mpl_dates.DateFormatter('%Y-%m-%d %H:%M:%S'))  # 调整时间轴格式
-    # ax.set_ylim(bottom=eqDf["equity"].min()*0.99)  # 调整y轴的范围不从0开始，最小值靠近资金曲线
-    plt.xticks(rotation=30)
+    ax.xaxis.set_major_locator(mpl_dates.AutoDateLocator())
     plt.ylabel("USDT 余额 (包含未实现盈亏)")
     plt.title(f"{RUN_NAME} 策略 资金曲线")
+    fig.autofmt_xdate()
 
     # 图上标注持仓情况
     comment = f"当前账户未实现盈亏: {unPnl}U, 当前账户持仓情况:\n\n" \
