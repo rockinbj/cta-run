@@ -76,6 +76,7 @@ def saveDataToFile(unPnl, equity, positions):
     equityFile = DATA_PATH / "equityFile.pkl"
     positionFile = DATA_PATH / "positionFile.pkl"
 
+    # 保存equity文件
     if os.path.isfile(equityFile):
         equityDf = pd.read_pickle(equityFile)
     else:
@@ -88,6 +89,7 @@ def saveDataToFile(unPnl, equity, positions):
     equityDf = pd.concat([equityDf, newEquityRow], ignore_index=True)
     equityDf.to_pickle(equityFile)
 
+    # 保存position文件
     if os.path.isfile(positionFile):
         positionDf = pd.read_pickle(positionFile)
     else:
@@ -188,7 +190,7 @@ def sendReport(*args):
 
 def drawPic(equityFile, posFile):
     eqDf = pd.read_pickle(equityFile)
-    eqDf["saveTime"] = pd.to_datetime(eqDf["saveTime"], unit="s") + dt.timedelta(hours=8)
+    eqDf["saveTime"] = pd.to_datetime(eqDf["saveTime"], unit="s").dt.floor("s") + dt.timedelta(hours=8)
     unPnl = eqDf.loc[eqDf["saveTime"] == eqDf["saveTime"].max(), "unPnl"].squeeze()
 
     # 找出最近持仓情况
@@ -214,6 +216,9 @@ def drawPic(equityFile, posFile):
     posNow.set_index("symbol", drop=True, inplace=True)
     posNow.index.name = None
 
+    drawdown = eqDf["equity"].max() / eqDf.sort_values("saveTime", ascending=False).iloc[-1]["equity"] - 1
+    drawdown = f"{round(drawdown,2)}%"
+
     # 画资金曲线
     fig, ax = plt.subplots(figsize=(15, 10), facecolor='black')
     ax.plot(eqDf["saveTime"], eqDf["equity"], color="tab:green")
@@ -223,8 +228,8 @@ def drawPic(equityFile, posFile):
     plt.title(f"{RUN_NAME} 策略 资金曲线")
     fig.autofmt_xdate()
 
-    # 图上标注持仓情况
-    comment = f"当前账户未实现盈亏: {unPnl}U, 当前账户持仓情况:\n\n" \
+    # 图上标注文字
+    comment = f"总未实现盈亏: {unPnl}U, 回撤: {drawdown}, 当前持仓情况:\n\n" \
               f"{posNow}"
     ax.annotate(
         comment,
