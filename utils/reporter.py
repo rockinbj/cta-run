@@ -1,5 +1,6 @@
 import datetime as dt
 import os
+import sys
 import time
 
 import ccxt
@@ -8,6 +9,9 @@ import matplotlib.dates as mpl_dates
 import pandas as pd
 import requests
 
+from pathlib import Path
+ROOT_PATH = Path(__file__).resolve().parent.parent
+sys.path.append(ROOT_PATH)
 import settings
 from utils.logger import *
 from exchangeConfig import *
