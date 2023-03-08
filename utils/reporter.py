@@ -14,7 +14,7 @@ import requests
 
 from logger import *
 from exchangeConfig import *
-import settings
+from settings import *
 
 pd.set_option('expand_frame_repr', False)  # 当列太多时不换行
 pd.set_option('display.max_rows', 100)
@@ -25,13 +25,8 @@ logger = logging.getLogger("app.reptr")
 
 
 IS_TEST = True
-RUN_NAME = settings.RUN_NAME
-EXCHANGE_ID = settings.EXCHANGE_ID
-REPORT_INTERVAL = settings.REPORT_INTERVAL if "m" in settings.REPORT_INTERVAL else f"{settings.REPORT_INTERVAL}m"
-PAGE_LEVERAGE = settings.PAGE_LEVERAGE
-MAX_BALANCE = settings.MAX_BALANCE
 CALL_ALARM = False
-DATA_PATH = settings.ROOT_PATH / "data" / "dbFiles"
+DATA_PATH = ROOT_PATH / "data" / "dbFiles"
 
 
 def runReporter(exchange):
