@@ -1,11 +1,8 @@
-import time
-from multiprocessing import Pool as PPool
-from multiprocessing import current_process
 from functions import *
 from exchangeConfig import *
 from symbolsConfig import *
 from settings import *
-from logger import *
+from utils.logger import *
 
 pd.set_option('expand_frame_repr', False)  # 当列太多时不换行
 pd.set_option('display.max_rows', 100)
@@ -16,30 +13,13 @@ pd.set_option("display.unicode.east_asian_width", True)
 logger = logging.getLogger("app.main")
 
 
-def reporter(exchangeId, interval):
-    process = current_process()
-    process.name = "Reporter"
-    while True:
-        try:
-            sendReport(exchangeId, symbolsConfig, interval)
-        except Exception as e:
-            sendAndPrintError(f"{RUN_NAME} 发送报告错误: {e}")
-            logger.exception(e)
-        time.sleep(0.5)
-
-
 def main():
     _n = "\n"
     logger.info(f"实盘代码: {RUN_NAME}")
     logger.info(f"开始建立交易所信息、市场信息...")
-    ex = getattr(ccxt, EXCHANGE)(EXCHANGE_CONFIG)
+    ex = getattr(ccxt, EXCHANGE_ID)(EXCHANGE_CONFIG)
     mkts = retryy(ex.loadMarkets, _name="建立市场信息ex.loadMarkets()")
     logger.info(f"建立市场信息完成, 准备开始实盘")
-
-    # 开启一个非阻塞的报告进程
-    rptpool = PPool(1)
-    rptpool.apply_async(reporter, args=(EXCHANGE, REPORT_INTERVAL))
-    logger.info(f"开启报告进程成功")
 
     while True:
         balance = getBalance(ex, asset=QUOTE_COIN)

@@ -8,7 +8,7 @@ import requests
 
 from exchangeConfig import *
 from symbolsConfig import *
-from logger import *
+from utils.logger import *
 from settings import *
 
 pd.set_option('expand_frame_repr', False)  # 当列太多时不换行

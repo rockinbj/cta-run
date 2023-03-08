@@ -1,6 +1,6 @@
 import math
 import pandas_ta as ta
-from logger import *
+from utils.logger import *
 
 logger = logging.getLogger("app.signal")
 

@@ -1,10 +1,11 @@
 RUN_NAME = "SuperTrendM1"
+EXCHANGE_ID = "binance"
 IS_TEST = True
 IS_TRADE = False
 
 # 假定时间，会产生当时的计算结果，如果不用请置None
 CHEAT_TIME = None
-# CHEAT_TIME = "2023-03-01 06:00:10"
+# CHEAT_TIME = "2023-03-05 10:00:31"
 
 # 页面杠杆
 PAGE_LEVERAGE = 5
@@ -14,12 +15,14 @@ MAX_BALANCE = 20 / 100
 QUOTE_COIN = "USDT"
 SLEEP_LEVEL = "1h"
 
-REPORT_INTERVAL = 30
+REPORT_INTERVAL = "30m"
 CALL_ALARM = True
 
+from pathlib import Path
+ROOT_PATH = Path(__file__).resolve().parent
 LOG_LEVEL_CONSOLE = "debug"
 LOG_LEVEL_FILE = "debug"
-LOG_PATH = "log/"
+LOG_PATH = ROOT_PATH / "log"
 
 SLEEP_LONG = 3
 SLEEP_MEDIUM = 0.5
