@@ -1,6 +1,9 @@
+from pathlib import Path
+ROOT_PATH = Path(__file__).resolve().parent.parent
+import sys
+sys.path.append(str(ROOT_PATH))
 import datetime as dt
 import os
-import sys
 import time
 
 import ccxt
@@ -9,12 +12,9 @@ import matplotlib.dates as mpl_dates
 import pandas as pd
 import requests
 
-from pathlib import Path
-ROOT_PATH = Path(__file__).resolve().parent.parent
-sys.path.append(ROOT_PATH)
-import settings
-from utils.logger import *
+from logger import *
 from exchangeConfig import *
+import settings
 
 pd.set_option('expand_frame_repr', False)  # 当列太多时不换行
 pd.set_option('display.max_rows', 100)
