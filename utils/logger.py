@@ -1,5 +1,9 @@
-import logging
+from pathlib import Path
+ROOT_PATH = Path(__file__).resolve().parent.parent
 import sys
+sys.path.append(str(ROOT_PATH))
+
+import logging
 
 from concurrent_log_handler import ConcurrentRotatingFileHandler
 from os import path

@@ -1,4 +1,7 @@
+from pathlib import Path
+ROOT_PATH = Path(__file__).resolve().parent.parent
 import sys
+sys.path.append(str(ROOT_PATH))
 
 from functions import *
 
@@ -6,7 +9,7 @@ print("如果需要清仓, 请加入'--close'参数")
 print("如果需要平仓指定币种, 请加入'--close=symbol'参数, 例如--close=ETH/USDT")
 print("\n")
 
-ex = getattr(ccxt, EXCHANGE)(EXCHANGE_CONFIG)
+ex = getattr(ccxt, EXCHANGE_ID)(EXCHANGE_CONFIG)
 mkts = ex.loadMarkets()
 
 pos = getOpenPosition(ex)
