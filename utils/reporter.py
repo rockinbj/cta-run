@@ -25,7 +25,6 @@ logger = logging.getLogger("app.reptr")
 
 
 IS_TEST = True
-CALL_ALARM = False
 DATA_PATH = ROOT_PATH / "data" / "dbFiles"
 
 
@@ -442,8 +441,8 @@ def sendAndRaise(msg):
 
 def sendAndCritical(msg):
     logger.critical(msg)
-    if CALL_ALARM:
-        callAlarm(strategyName=RUN_NAME, content=msg)
+    # if CALL_ALARM:
+    #     callAlarm(strategyName=RUN_NAME, content=msg)
     sendMixin(msg)
 
 

@@ -415,6 +415,9 @@ def calOrder(exchange, markets, signalInfo, symbolsConfig, positions, balance):
         # 如果已经有symbol持仓:
         #   如果是同向持仓，则本轮不动
         #   如果是反向持仓，则本次实际开仓的金额 首先要能覆盖掉反向仓位，还要够反向开仓，即 实际开仓 = 目标仓位 - 已有仓位
+        # 如果要给策略加钱，只有下一次反向开仓时才会重新计算资金，
+        #   这样做的好处是，不会加仓就不会移动爆仓线
+        #   坏处是加钱的等待期比较长
         if not posNow.empty:
             posDirction = 1 if posNow.iloc[0]["side"] == "long" else -1
             if posDirction == signal:
