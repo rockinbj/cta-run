@@ -1,3 +1,5 @@
+import time
+
 from functions import *
 from exchangeConfig import *
 from symbolsConfig import *
@@ -58,4 +60,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    while True:
+        try:
+            main()
+        except Exception as e:
+            sendAndPrintError(f"{RUN_NAME} main报错, 程序重新运行, 尽快检查日志: {e}")
+            logger.exception(e)
+            time.sleep(SLEEP_LONG)
+            continue
