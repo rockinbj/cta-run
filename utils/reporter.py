@@ -140,7 +140,7 @@ def sendReport(*args):
                 "leverage",
             ]
         ]
-        pos["datetime"] = pd.to_datetime(pos["datetime"])
+        pos["datetime"] = pd.to_datetime(pos["datetime"]) + dt.timedelta(hours=8)
         pos["datetime"] = pos["datetime"].dt.floor("s")
 
         pos.rename(
