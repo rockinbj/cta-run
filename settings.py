@@ -10,7 +10,7 @@ CHEAT_TIME = None
 # 页面杠杆
 PAGE_LEVERAGE = 5
 # 最大资金比例, 页面杠杆 * 最大比例 = 实际杠杆
-MAX_BALANCE = 20 / 100
+MAX_BALANCE = 24 / 100
 
 QUOTE_COIN = "USDT"
 SLEEP_LEVEL = "1h"
