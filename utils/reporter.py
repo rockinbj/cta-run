@@ -24,7 +24,7 @@ pd.set_option("display.unicode.east_asian_width", True)
 logger = logging.getLogger("app.reptr")
 
 
-IS_TEST = True
+IS_TEST = False
 DATA_PATH = ROOT_PATH / "data" / "dbFiles"
 
 
@@ -216,7 +216,7 @@ def drawPic(equityFile, posFile):
     posNow.index.name = None
 
     drawdown = eqDf["equity"].max() / eqDf.sort_values("saveTime", ascending=False).iloc[-1]["equity"] - 1
-    drawdown = f"{round(drawdown,2)}%"
+    drawdown = f"{round(drawdown,2)*100}%"
 
     # 画资金曲线
     fig, ax = plt.subplots(figsize=(15, 10), facecolor='black')
