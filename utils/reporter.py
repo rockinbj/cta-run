@@ -215,7 +215,7 @@ def drawPic(equityFile, posFile):
     posNow.set_index("symbol", drop=True, inplace=True)
     posNow.index.name = None
 
-    drawdown = eqDf["equity"].max() / eqDf.sort_values("saveTime", ascending=False).iloc[-1]["equity"] - 1
+    drawdown = eqDf["equity"].max() / eqDf.sort_values("saveTime", ascending=False).iloc[0]["equity"] - 1
     drawdown = f"{round(drawdown,4)*100}%"
 
     # 画资金曲线
